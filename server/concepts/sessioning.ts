@@ -1,5 +1,5 @@
 import { SessionData } from "express-session";
-import { UnauthenticatedError } from "./errors";
+import { NotFoundError, UnauthenticatedError } from "./errors";
 
 export type SessionDoc = SessionData;
 
@@ -25,6 +25,7 @@ export default class SessioningConcept {
     // synchronization like starting a session should just consist of a series of actions that may throw
     // exceptions and should not have its own control flow.
 
+    // Check if person is logged out
     this.isLoggedOut(session);
     session.user = username;
   }
@@ -39,15 +40,16 @@ export default class SessioningConcept {
     return session.user!;
   }
 
-  isLoggedIn(session: SessionDoc) {
-    if (session.user === undefined) {
-      throw new UnauthenticatedError("Must be logged in!");
+  // If person is not logged out, then alert
+  isLoggedOut(session: SessionDoc) {
+    if (session.user !== undefined) {
+      throw new NotFoundError("Must be logged out!");
     }
   }
 
-  isLoggedOut(session: SessionDoc) {
-    if (session.user !== undefined) {
-      throw new UnauthenticatedError("Must be logged out!");
+  isLoggedIn(session: SessionDoc) {
+    if (session.user === undefined) {
+      throw new UnauthenticatedError("Must be logged in!");
     }
   }
 }
