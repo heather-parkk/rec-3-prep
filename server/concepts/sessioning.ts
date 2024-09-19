@@ -12,7 +12,7 @@ declare module "express-session" {
   }
 }
 
-/**
+/** adding comment
  * concept: Sessioning [User]
  */
 export default class SessioningConcept {
