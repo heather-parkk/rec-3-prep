@@ -12,7 +12,7 @@ declare module "express-session" {
   }
 }
 
-/** adding comment
+/** 
  * concept: Sessioning [User]
  */
 export default class SessioningConcept {
@@ -24,6 +24,8 @@ export default class SessioningConcept {
     // Hint: Take a look at how the "end" function makes sure the user is logged in. Keep in mind that a
     // synchronization like starting a session should just consist of a series of actions that may throw
     // exceptions and should not have its own control flow.
+
+    this.isLoggedOut(session);
     session.user = username;
   }
 
@@ -40,6 +42,12 @@ export default class SessioningConcept {
   isLoggedIn(session: SessionDoc) {
     if (session.user === undefined) {
       throw new UnauthenticatedError("Must be logged in!");
+    }
+  }
+
+  isLoggedOut(session: SessionDoc) {
+    if (session.user !== undefined) {
+      throw new UnauthenticatedError("Must be logged out!");
     }
   }
 }
